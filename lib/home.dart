@@ -1,3 +1,4 @@
+import 'package:expense_tracker/add_expense.dart';
 import 'package:expense_tracker/main.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -10,7 +11,9 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  Map<String, dynamic>? userData;
+
+  String name = "Loading...";
+
   Future<void> _userdata() async {
     try {
       final userId = supabase.auth.currentUser?.id;
@@ -18,7 +21,7 @@ class _HomeState extends State<Home> {
         final response =
            await supabase.from("tbl_userreg").select().eq('id', userId).single();
         setState(() {
-          userData = response;
+          name = response['user_name'];
         });
       }
     } catch (e) {
@@ -36,8 +39,16 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Expense Tracker"),
+        actions: [
+          TextButton.icon(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AddExpense(),));
+          }, label: Text("Add Expense"), icon: Icon(Icons.add),)
+        ],
+      ),
       body: Center(
-        child: Text("Welcome $userData['user_name']"),
+        child: Text("Welcome $name "),
       ),
     );
   }
