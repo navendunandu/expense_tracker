@@ -1,5 +1,8 @@
+import 'package:expense_tracker/home.dart';
+import 'package:expense_tracker/main.dart';
 import 'package:expense_tracker/registration.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({super.key});
@@ -11,6 +14,24 @@ class LoginForm extends StatefulWidget {
 class _LoginFormState extends State<LoginForm> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
+
+  Future<void> _signin() async {
+    try {
+      final AuthResponse response = await supabase.auth
+          .signInWithPassword(password: _password.text, email: _email.text);
+      final User? user = response.user;
+      if (user?.id != "") {
+        Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ));
+      }
+    } catch (e) {
+      print("Error During Signin:$e");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +83,9 @@ class _LoginFormState extends State<LoginForm> {
               height: 15,
             ),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                _signin();
+              },
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Text(
