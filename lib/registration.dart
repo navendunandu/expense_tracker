@@ -20,9 +20,6 @@ class _RegistrationState extends State<Registration> {
   Future<void> _signup() async {
     if(_password.text==_cpassword.text){  
     try {
-      
-      
-        print("hi");
 
         final AuthResponse response = await supabase.auth
             .signUp(password: _password.text, email: _email.text);
