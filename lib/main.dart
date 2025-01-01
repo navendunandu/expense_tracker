@@ -15,7 +15,26 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      title: 'Expense Tracker',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        primaryColor: Colors.orange,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.black,
+          titleTextStyle: TextStyle(color: Colors.orange, fontSize: 20),
+        ),
+        cardColor: Colors.grey[900],
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white60),
+        ),
+        buttonTheme: ButtonThemeData(
+          buttonColor: Colors.orange,
+          textTheme: ButtonTextTheme.primary,
+        ),
+      ),
+      debugShowCheckedModeBanner: false,
       home:LoginForm()
     );
   }
